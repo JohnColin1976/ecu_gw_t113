@@ -1,0 +1,14 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "t113-static",
+      "compilerPath": "/usr/bin/arm-linux-gnueabihf-gcc",
+      "intelliSenseMode": "linux-gcc-arm",
+      "cStandard": "c11",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ]
+    }
+  ]
+}

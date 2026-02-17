@@ -1,0 +1,65 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "configure (t113 static)",
+      "type": "shell",
+      "command": "cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=toolchain-t113-static.cmake -DCMAKE_BUILD_TYPE=Release",
+      "problemMatcher": []
+    },
+    {
+      "label": "build (t113 static)",
+      "type": "shell",
+      "command": "cmake --build build -j",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": [
+            {
+            "regexp": "^(.*?):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+            },
+            {
+            "regexp": "^(.*?):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "severity": 3,
+            "message": 4
+            }
+            ]
+        }
+    },
+    {
+      "label": "deploy (t113)",
+      "type": "shell",
+      "command": "scp -O build/hello_t113 root@192.168.1.157:/tmp/hello_t113",
+      "dependsOn": "build (t113 static)",
+      "problemMatcher": []
+    },
+    {
+      "label": "run (t113)",
+      "type": "shell",
+      "command": "ssh root@192.168.1.157 'chmod +x /tmp/hello_t113 && /tmp/hello_t113'",
+      "dependsOn": "deploy (t113)",
+      "problemMatcher": []
+    },
+    {
+      "label": "clean (t113)",
+      "type": "shell",
+      "command": "rm -rf build",
+      "problemMatcher": []
+    },
+    {
+        "label": "gdbserver (t113)",
+        "type": "shell",
+        "command": "ssh root@192.168.1.157 'killall gdbserver 2>/dev/null || true; chmod +x /tmp/hello_t113; gdbserver :2345 /tmp/hello_t113'",
+        "dependsOn": "deploy (t113)",
+        "problemMatcher": []
+    }
+  ]
+}
