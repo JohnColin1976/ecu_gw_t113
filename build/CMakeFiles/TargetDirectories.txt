@@ -1,3 +1,0 @@
-/root/ecu_mt_t113/build/CMakeFiles/hello_t113.dir
-/root/ecu_mt_t113/build/CMakeFiles/edit_cache.dir
-/root/ecu_mt_t113/build/CMakeFiles/rebuild_cache.dir
