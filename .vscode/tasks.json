@@ -37,14 +37,14 @@
     {
       "label": "deploy (t113)",
       "type": "shell",
-      "command": "scp -O build/hello_t113 root@192.168.1.157:/tmp/hello_t113",
+      "command": "scp -O build/test_slip_frame root@192.168.1.157:/tmp/test_slip_frame",
       "dependsOn": "build (t113 static)",
       "problemMatcher": []
     },
     {
       "label": "run (t113)",
       "type": "shell",
-      "command": "ssh root@192.168.1.157 'chmod +x /tmp/hello_t113 && /tmp/hello_t113'",
+      "command": "ssh root@192.168.1.157 'chmod +x /tmp/test_slip_frame && /tmp/test_slip_frame'",
       "dependsOn": "deploy (t113)",
       "problemMatcher": []
     },
