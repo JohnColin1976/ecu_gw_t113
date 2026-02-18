@@ -1,6 +1,9 @@
 #pragma once
+
 #include <stdint.h>
 #include <stddef.h>
+
+#include "ecu/ecu_slip.h"
 
 typedef struct {
     int fd;
