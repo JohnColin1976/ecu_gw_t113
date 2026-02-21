@@ -57,7 +57,7 @@
     {
         "label": "gdbserver (t113)",
         "type": "shell",
-        "command": "ssh root@192.168.1.157 'killall gdbserver 2>/dev/null || true; chmod +x /tmp/hello_t113; gdbserver :2345 /tmp/hello_t113'",
+        "command": "ssh root@192.168.1.157 'killall gdbserver 2>/dev/null || true; chmod +x /tmp/ecu_gw; gdbserver :2345 /tmp/ecu_gw'",
         "dependsOn": "deploy (t113)",
         "problemMatcher": []
     }
