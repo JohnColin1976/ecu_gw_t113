@@ -16,10 +16,10 @@ add_library(ecu_proto
 add_executable(ecu_gw
   src/main.c
   src/gw/gw_app.c
+  src/gw/gw_cmd_ui.c
   src/gw/gw_net.c
   src/gw/gw_router.c
   src/gw/gw_uart.c
 )
 
 target_link_libraries(ecu_gw ecu_proto)
-

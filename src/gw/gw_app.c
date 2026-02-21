@@ -3,6 +3,7 @@
 #include "gw/gw_net.h"
 #include "gw/gw_uart.h"
 #include "gw/gw_router.h"
+#include "gw/gw_cmd_ui.h"
 
 #include "ecu/ecu_limits.h"
 #include "ecu/ecu_proto.h"
@@ -249,8 +250,12 @@ static int gw_app_send_test(const char* ports_spec, int show_packets)
     return (sent_count > 0) ? 0 : 1;
 }
 
-int gw_app_run(int show_packets, int preview_raw, const char* send_test_ports)
+int gw_app_run(int show_packets, int preview_raw, const char* send_test_ports, const char* cmd_ui_port)
 {
+    if (cmd_ui_port && cmd_ui_port[0] != '\0') {
+        return gw_cmd_ui_run(cmd_ui_port, show_packets, preview_raw);
+    }
+
     if (send_test_ports && send_test_ports[0] != '\0') {
         return gw_app_send_test(send_test_ports, show_packets);
     }
