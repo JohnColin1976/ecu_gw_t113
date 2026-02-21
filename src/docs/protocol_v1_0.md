@@ -159,6 +159,8 @@ Command ID (v1)
 - При получении команда инициирует вход в загрузчик:
   - запись `MAGIC_UPDATE` в `GPBR[0]`
   - `NVIC_SystemReset()`
+- Для диагностики APP дополнительно передает в debug UART (FTDI, PA8/PA9) периодический heartbeat:
+  - `APP alive ms=<ticks>` с периодом ~1 сек.
 
 #### 7.4 ACK
 Payload:
