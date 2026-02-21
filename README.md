@@ -23,3 +23,33 @@
    - cmd 2 00 10
    - src \x55\xAA
    Выход: q (при пустой строке ввода) или Ctrl+C
+
+5. Обновление через UART без Python-зависимостей (C utility):
+```bash
+cd src/tools
+make t113
+```
+
+   Результат сборки для T113:
+   - `src/tools/build/t113-static/uart_bl_update`
+
+   Правила использования на плате T113:
+   - запускать именно ARM-бинарник `build/t113/uart_bl_update`;
+   - порт указывать как путь устройства Linux, например `/dev/ttyS1`;
+   - по умолчанию утилита отправляет `ENTER_BOOT`, синхронизируется с bootloader, затем шьет и делает `RUN`;
+   - если bootloader уже активен, используйте `--no-enter-boot`;
+   - для проверки связи с bootloader без прошивки можно запускать без `--firmware` (будет только `SYNC` и `INFO`);
+   - `--chunk` не должен превышать `max_chunk` из `INFO` (утилита автоматически ограничит);
+   - для сохранения состояния после прошивки без автозапуска приложения используйте `--no-run`.
+
+   Примеры запуска на T113:
+```bash
+# 1) Только проверить связь с bootloader
+./build/t113-static/uart_bl_update --port /dev/ttyS1 --baud 115200 --no-enter-boot
+
+# 2) Полная прошивка и запуск приложения
+./build/t113-static/uart_bl_update --port /dev/ttyS1 --baud 115200 --firmware /path/to/due_app.bin
+
+# 3) Прошивка, но без автозапуска
+./build/t113-static/uart_bl_update --port /dev/ttyS1 --baud 115200 --firmware /path/to/due_app.bin --no-run
+```

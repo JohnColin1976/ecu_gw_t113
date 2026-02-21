@@ -42,6 +42,46 @@
       "problemMatcher": []
     },
     {
+      "label": "build uart_bl_update (t113)",
+      "type": "shell",
+      "command": "make -C src/tools t113",
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": [
+          {
+            "regexp": "^(.*?):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          },
+          {
+            "regexp": "^(.*?):(\\d+):\\s+(warning|error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "severity": 3,
+            "message": 4
+          }
+        ]
+      }
+    },
+    {
+      "label": "deploy uart_bl_update (t113)",
+      "type": "shell",
+      "command": "scp -O src/tools/build/t113-static/uart_bl_update root@192.168.1.157:/tmp/uart_bl_update",
+      "dependsOn": "build uart_bl_update (t113)",
+      "problemMatcher": []
+    },
+    {
+      "label": "deploy due_app.bin (t113)",
+      "type": "shell",
+      "command": "scp -O src/tools/due_app.bin root@192.168.1.157:/tmp/due_app.bin",
+      "dependsOn": "build uart_bl_update (t113)",
+      "problemMatcher": []
+    },
+    {
       "label": "run (t113)",
       "type": "shell",
       "command": "ssh root@192.168.1.157 'chmod +x /tmp/ecu_gw && /tmp/ecu_gw'",
