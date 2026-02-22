@@ -53,3 +53,50 @@ make t113
 # 3) Прошивка, но без автозапуска
 ./build/t113-static/uart_bl_update --port /dev/ttyS1 --baud 115200 --firmware /path/to/due_app.bin --no-run
 ```
+
+---
+
+## Инструкция инженеру: прошивка SAM3X8E через T113
+
+Ниже рабочий порядок обновления `due_app` на SAM3X8E через UART с платы T113.
+
+1. Подготовить актуальный бинарник приложения для SAM3X8E:
+   - собрать проект `due*`;
+   - убедиться, что есть файл `build/due_app.bin`.
+
+2. Подготовить updater на T113:
+   - вариант A (рекомендуется): использовать ARM-утилиту из `ecu_gw_t113/src/tools/build/t113-static/uart_bl_update`;
+   - вариант B: собрать `tools/uart_bl_update` прямо на T113 в нужном проекте `due*`.
+
+3. Скопировать `due_app.bin` на T113 (например, в `/tmp/due_app.bin`).
+
+4. Подключить T113 к целевому SAM3X8E по UART и определить порт Linux на T113 (обычно `/dev/ttyS4`, скорость `115200`).
+
+5. Запустить прошивку на T113:
+
+```bash
+uart_bl_update --port /dev/ttyS4 --baud 115200 --firmware /tmp/due_app.bin
+```
+
+Если bootloader уже активен, запускать с `--no-enter-boot`:
+
+```bash
+uart_bl_update --port /dev/ttyS4 --baud 115200 --firmware /tmp/due_app.bin --no-enter-boot
+```
+
+6. Проверить успешность по логам updater:
+   - `SYNC: OK`
+   - `INFO: ...`
+   - `ERASE: OK`
+   - `WRITE: ...`
+   - `VERIFY: OK`
+   - `RUN: OK`
+
+7. Подтвердить запуск приложения на диагностическом UART (FTDI, PA8/PA9, 115200 8N1):
+   - `APP start`
+   - `APP alive ms=...`
+
+Замечания:
+- если нужен только тест связи с bootloader без прошивки, запускайте без `--firmware`;
+- для прошивки без автозапуска приложения добавьте `--no-run`;
+- файл `due_app.bin` на T113 должен быть именно из актуальной сборки, иначе после `RUN` останется старое поведение.
